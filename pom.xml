@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    This pom.xml is NOT part of the published Python package — PyPI ignores it.
+    It is only the code-generation harness: it runs the OpenAPI Generator in
+    `python` mode against the frozen openapi/openapi.json and writes the package
+    (pyproject.toml, setup.py, prioritize_client/, docs/) into the repo root.
+    The generated Python is never hand-edited; to update the client, replace
+    openapi/openapi.json with the next released spec and run `./generate.sh`.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>de.hallerweb</groupId>
+    <artifactId>prioritize-python-client-codegen</artifactId>
+    <version>1.2.0</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <openapi-generator.version>7.10.0</openapi-generator.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>${openapi-generator.version}</version>
+                <executions>
+                    <execution>
+                        <id>generate-prioritize-python-client</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/openapi/openapi.json</inputSpec>
+                            <output>${project.basedir}</output>
+                            <generatorName>python</generatorName>
+                            <generateApiTests>false</generateApiTests>
+                            <generateModelTests>false</generateModelTests>
+                            <generateApiDocumentation>true</generateApiDocumentation>
+                            <generateModelDocumentation>true</generateModelDocumentation>
+                            <configOptions>
+                                <packageName>prioritize_client</packageName>
+                                <projectName>prioritize-client</projectName>
+                                <packageVersion>1.2.0</packageVersion>
+                                <packageUrl>https://github.com/phaller222/prioritize-python-client</packageUrl>
+                                <library>urllib3</library>
+                                <hideGenerationTimestamp>true</hideGenerationTimestamp>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

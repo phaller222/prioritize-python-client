@@ -1,0 +1,14 @@
+# Maven codegen harness artifacts
+/target/
+
+# Python build / packaging
+/build/
+/dist/
+*.egg-info/
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# OpenAPI Generator bookkeeping
+/.openapi-generator/

@@ -1,0 +1,14 @@
+# Files the generator must NOT create or overwrite — hand-maintained.
+# Everything else (pyproject.toml, setup.py, requirements.txt, prioritize_client/, docs/)
+# is generated and must not be hand-edited.
+README.md
+LICENSE
+.gitignore
+pom.xml
+generate.sh
+openapi/**
+git_push.sh
+.travis.yml
+.gitlab-ci.yml
+tox.ini
+.github/**
