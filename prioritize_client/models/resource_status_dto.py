@@ -18,22 +18,22 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
-from prioritize_client.models.address_dto import AddressDTO
+from prioritize_client.models.resource_dto import ResourceDTO
+from prioritize_client.models.resource_value_dto import ResourceValueDTO
+from prioritize_client.models.telemetry_rule_dto import TelemetryRuleDTO
 from typing import Optional, Set
 from typing_extensions import Self
 
-class DepartmentDTO(BaseModel):
+class ResourceStatusDTO(BaseModel):
     """
-    DepartmentDTO
+    ResourceStatusDTO
     """ # noqa: E501
-    id: Optional[StrictInt] = None
-    name: Optional[StrictStr] = None
-    description: Optional[StrictStr] = None
-    company_id: Optional[StrictInt] = Field(default=None, alias="companyId")
-    address: Optional[AddressDTO] = None
-    __properties: ClassVar[List[str]] = ["id", "name", "description", "companyId", "address"]
+    resource: Optional[ResourceDTO] = None
+    latest_values: Optional[List[ResourceValueDTO]] = Field(default=None, alias="latestValues")
+    telemetry_rules: Optional[List[TelemetryRuleDTO]] = Field(default=None, alias="telemetryRules")
+    __properties: ClassVar[List[str]] = ["resource", "latestValues", "telemetryRules"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -53,7 +53,7 @@ class DepartmentDTO(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of DepartmentDTO from a JSON string"""
+        """Create an instance of ResourceStatusDTO from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -74,14 +74,28 @@ class DepartmentDTO(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of address
-        if self.address:
-            _dict['address'] = self.address.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of resource
+        if self.resource:
+            _dict['resource'] = self.resource.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in latest_values (list)
+        _items = []
+        if self.latest_values:
+            for _item_latest_values in self.latest_values:
+                if _item_latest_values:
+                    _items.append(_item_latest_values.to_dict())
+            _dict['latestValues'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in telemetry_rules (list)
+        _items = []
+        if self.telemetry_rules:
+            for _item_telemetry_rules in self.telemetry_rules:
+                if _item_telemetry_rules:
+                    _items.append(_item_telemetry_rules.to_dict())
+            _dict['telemetryRules'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of DepartmentDTO from a dict"""
+        """Create an instance of ResourceStatusDTO from a dict"""
         if obj is None:
             return None
 
@@ -89,11 +103,9 @@ class DepartmentDTO(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "id": obj.get("id"),
-            "name": obj.get("name"),
-            "description": obj.get("description"),
-            "companyId": obj.get("companyId"),
-            "address": AddressDTO.from_dict(obj["address"]) if obj.get("address") is not None else None
+            "resource": ResourceDTO.from_dict(obj["resource"]) if obj.get("resource") is not None else None,
+            "latestValues": [ResourceValueDTO.from_dict(_item) for _item in obj["latestValues"]] if obj.get("latestValues") is not None else None,
+            "telemetryRules": [TelemetryRuleDTO.from_dict(_item) for _item in obj["telemetryRules"]] if obj.get("telemetryRules") is not None else None
         })
         return _obj
 

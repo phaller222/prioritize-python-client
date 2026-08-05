@@ -18,22 +18,18 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from prioritize_client.models.address_dto import AddressDTO
 from typing import Optional, Set
 from typing_extensions import Self
 
-class DepartmentDTO(BaseModel):
+class ResourceValueDTO(BaseModel):
     """
-    DepartmentDTO
+    ResourceValueDTO
     """ # noqa: E501
-    id: Optional[StrictInt] = None
     name: Optional[StrictStr] = None
-    description: Optional[StrictStr] = None
-    company_id: Optional[StrictInt] = Field(default=None, alias="companyId")
-    address: Optional[AddressDTO] = None
-    __properties: ClassVar[List[str]] = ["id", "name", "description", "companyId", "address"]
+    value: Optional[StrictStr] = None
+    __properties: ClassVar[List[str]] = ["name", "value"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -53,7 +49,7 @@ class DepartmentDTO(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of DepartmentDTO from a JSON string"""
+        """Create an instance of ResourceValueDTO from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -74,14 +70,11 @@ class DepartmentDTO(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of address
-        if self.address:
-            _dict['address'] = self.address.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of DepartmentDTO from a dict"""
+        """Create an instance of ResourceValueDTO from a dict"""
         if obj is None:
             return None
 
@@ -89,11 +82,8 @@ class DepartmentDTO(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "id": obj.get("id"),
             "name": obj.get("name"),
-            "description": obj.get("description"),
-            "companyId": obj.get("companyId"),
-            "address": AddressDTO.from_dict(obj["address"]) if obj.get("address") is not None else None
+            "value": obj.get("value")
         })
         return _obj
 

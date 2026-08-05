@@ -10,14 +10,19 @@ Method | HTTP request | Description
 [**resource_create_resource_group**](ResourcesApi.md#resource_create_resource_group) | **POST** /api/v1/departments/{deptId}/resourcegroups | Creates a new resource group for a specific department
 [**resource_delete_resource**](ResourcesApi.md#resource_delete_resource) | **DELETE** /api/v1/resources/{id} | Deletes a resource, if the current user is authorized
 [**resource_delete_resource_group**](ResourcesApi.md#resource_delete_resource_group) | **DELETE** /api/v1/resourcegroups/{groupId} | Deletes a resource group, if the current user is authorized
+[**resource_get_all_resources**](ResourcesApi.md#resource_get_all_resources) | **GET** /api/v1/resources | Returns every resource the current user may read (flat list)
+[**resource_get_latest_values**](ResourcesApi.md#resource_get_latest_values) | **GET** /api/v1/resources/{id}/values/latest | Returns the newest reading of every telemetry data point of a resource
 [**resource_get_my_active_reservations**](ResourcesApi.md#resource_get_my_active_reservations) | **GET** /api/v1/resources/{id}/reservations/mine | Returns the caller&#39;s own currently active reservations on this resource
 [**resource_get_reservations_for_resource**](ResourcesApi.md#resource_get_reservations_for_resource) | **GET** /api/v1/resources/{id}/reservations | Returns all reservations of a resource (occupancy overview)
 [**resource_get_resource**](ResourcesApi.md#resource_get_resource) | **GET** /api/v1/resources/{id} | Retrieves a resource, if the current user is authorized
+[**resource_get_resource_groups**](ResourcesApi.md#resource_get_resource_groups) | **GET** /api/v1/departments/{deptId}/resourcegroups | Returns the resource groups of a department
+[**resource_get_resource_status**](ResourcesApi.md#resource_get_resource_status) | **GET** /api/v1/resources/status | Returns every readable resource with its latest values and monitoring rules
 [**resource_get_resources_by_resource_group**](ResourcesApi.md#resource_get_resources_by_resource_group) | **GET** /api/v1/resourcegroups/{groupId}/resources | Returns all resources of a specific resource group
 [**resource_get_skills_for_resource**](ResourcesApi.md#resource_get_skills_for_resource) | **GET** /api/v1/resources/{resourceId}/skills | Returns all skills of a resource
 [**resource_get_skills_for_resource_in_group**](ResourcesApi.md#resource_get_skills_for_resource_in_group) | **GET** /api/v1/resourcegroups/{groupId}/resources/{resourceId}/skills | Returns all skills of a resource, filtered by resource group
 [**resource_partial_update_resource**](ResourcesApi.md#resource_partial_update_resource) | **PATCH** /api/v1/resources/{id} | Updates individual fields of a resource (PATCH semantics: null &#x3D; unchanged)
 [**resource_record_value**](ResourcesApi.md#resource_record_value) | **POST** /api/v1/resources/{id}/values | Records a telemetry reading for a resource (REST ingest)
+[**resource_rename_resource_group**](ResourcesApi.md#resource_rename_resource_group) | **PUT** /api/v1/resourcegroups/{groupId} | Renames a resource group, if the current user is authorized
 [**resource_reserve_resource**](ResourcesApi.md#resource_reserve_resource) | **POST** /api/v1/resources/{id}/reserve | Reserves a resource for a specific time span
 [**resource_send_command**](ResourcesApi.md#resource_send_command) | **POST** /api/v1/resources/{id}/command | Sends a control command to a resource
 
@@ -519,6 +524,168 @@ void (empty response body)
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **resource_get_all_resources**
+> List[ResourceDTO] resource_get_all_resources()
+
+Returns every resource the current user may read (flat list)
+
+### Example
+
+* Basic Authentication (basicAuth):
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import prioritize_client
+from prioritize_client.models.resource_dto import ResourceDTO
+from prioritize_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost:8080
+# See configuration.py for a list of all supported configuration parameters.
+configuration = prioritize_client.Configuration(
+    host = "http://localhost:8080"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure HTTP basic authorization: basicAuth
+configuration = prioritize_client.Configuration(
+    username = os.environ["USERNAME"],
+    password = os.environ["PASSWORD"]
+)
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = prioritize_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with prioritize_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = prioritize_client.ResourcesApi(api_client)
+
+    try:
+        # Returns every resource the current user may read (flat list)
+        api_response = api_instance.resource_get_all_resources()
+        print("The response of ResourcesApi->resource_get_all_resources:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling ResourcesApi->resource_get_all_resources: %s\n" % e)
+```
+
+
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**List[ResourceDTO]**](ResourceDTO.md)
+
+### Authorization
+
+[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **resource_get_latest_values**
+> List[ResourceValueDTO] resource_get_latest_values(id)
+
+Returns the newest reading of every telemetry data point of a resource
+
+### Example
+
+* Basic Authentication (basicAuth):
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import prioritize_client
+from prioritize_client.models.resource_value_dto import ResourceValueDTO
+from prioritize_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost:8080
+# See configuration.py for a list of all supported configuration parameters.
+configuration = prioritize_client.Configuration(
+    host = "http://localhost:8080"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure HTTP basic authorization: basicAuth
+configuration = prioritize_client.Configuration(
+    username = os.environ["USERNAME"],
+    password = os.environ["PASSWORD"]
+)
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = prioritize_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with prioritize_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = prioritize_client.ResourcesApi(api_client)
+    id = 56 # int | 
+
+    try:
+        # Returns the newest reading of every telemetry data point of a resource
+        api_response = api_instance.resource_get_latest_values(id)
+        print("The response of ResourcesApi->resource_get_latest_values:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling ResourcesApi->resource_get_latest_values: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **int**|  | 
+
+### Return type
+
+[**List[ResourceValueDTO]**](ResourceValueDTO.md)
+
+### Authorization
+
+[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **resource_get_my_active_reservations**
 > List[ResourceReservationDTO] resource_get_my_active_reservations(id)
 
@@ -750,6 +917,168 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**ResourceDTO**](ResourceDTO.md)
+
+### Authorization
+
+[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **resource_get_resource_groups**
+> List[ResourceGroupDTO] resource_get_resource_groups(dept_id)
+
+Returns the resource groups of a department
+
+### Example
+
+* Basic Authentication (basicAuth):
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import prioritize_client
+from prioritize_client.models.resource_group_dto import ResourceGroupDTO
+from prioritize_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost:8080
+# See configuration.py for a list of all supported configuration parameters.
+configuration = prioritize_client.Configuration(
+    host = "http://localhost:8080"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure HTTP basic authorization: basicAuth
+configuration = prioritize_client.Configuration(
+    username = os.environ["USERNAME"],
+    password = os.environ["PASSWORD"]
+)
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = prioritize_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with prioritize_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = prioritize_client.ResourcesApi(api_client)
+    dept_id = 56 # int | 
+
+    try:
+        # Returns the resource groups of a department
+        api_response = api_instance.resource_get_resource_groups(dept_id)
+        print("The response of ResourcesApi->resource_get_resource_groups:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling ResourcesApi->resource_get_resource_groups: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **dept_id** | **int**|  | 
+
+### Return type
+
+[**List[ResourceGroupDTO]**](ResourceGroupDTO.md)
+
+### Authorization
+
+[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **resource_get_resource_status**
+> List[ResourceStatusDTO] resource_get_resource_status()
+
+Returns every readable resource with its latest values and monitoring rules
+
+### Example
+
+* Basic Authentication (basicAuth):
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import prioritize_client
+from prioritize_client.models.resource_status_dto import ResourceStatusDTO
+from prioritize_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost:8080
+# See configuration.py for a list of all supported configuration parameters.
+configuration = prioritize_client.Configuration(
+    host = "http://localhost:8080"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure HTTP basic authorization: basicAuth
+configuration = prioritize_client.Configuration(
+    username = os.environ["USERNAME"],
+    password = os.environ["PASSWORD"]
+)
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = prioritize_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with prioritize_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = prioritize_client.ResourcesApi(api_client)
+
+    try:
+        # Returns every readable resource with its latest values and monitoring rules
+        api_response = api_instance.resource_get_resource_status()
+        print("The response of ResourcesApi->resource_get_resource_status:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling ResourcesApi->resource_get_resource_status: %s\n" % e)
+```
+
+
+
+### Parameters
+
+This endpoint does not need any parameter.
+
+### Return type
+
+[**List[ResourceStatusDTO]**](ResourceStatusDTO.md)
 
 ### Authorization
 
@@ -1179,6 +1508,91 @@ void (empty response body)
 
  - **Content-Type**: application/json
  - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **resource_rename_resource_group**
+> ResourceGroupDTO resource_rename_resource_group(group_id, name)
+
+Renames a resource group, if the current user is authorized
+
+### Example
+
+* Basic Authentication (basicAuth):
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import prioritize_client
+from prioritize_client.models.resource_group_dto import ResourceGroupDTO
+from prioritize_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost:8080
+# See configuration.py for a list of all supported configuration parameters.
+configuration = prioritize_client.Configuration(
+    host = "http://localhost:8080"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure HTTP basic authorization: basicAuth
+configuration = prioritize_client.Configuration(
+    username = os.environ["USERNAME"],
+    password = os.environ["PASSWORD"]
+)
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = prioritize_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with prioritize_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = prioritize_client.ResourcesApi(api_client)
+    group_id = 56 # int | 
+    name = 'name_example' # str | 
+
+    try:
+        # Renames a resource group, if the current user is authorized
+        api_response = api_instance.resource_rename_resource_group(group_id, name)
+        print("The response of ResourcesApi->resource_rename_resource_group:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling ResourcesApi->resource_rename_resource_group: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **group_id** | **int**|  | 
+ **name** | **str**|  | 
+
+### Return type
+
+[**ResourceGroupDTO**](ResourceGroupDTO.md)
+
+### Authorization
+
+[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
 
 ### HTTP response details
 
