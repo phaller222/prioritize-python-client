@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **type** | **str** |  | [optional] 
 **action** | **str** |  | [optional] 
 **task_id** | **int** |  | [optional] 
-**tracking** | **bool** |  | [optional] 
+**tracking_for_me** | **bool** |  | [optional] 
 **sequence_number** | **int** |  | [optional] 
 
 ## Example

@@ -13,7 +13,8 @@ Name | Type | Description | Notes
 **assignee_id** | **int** |  | [optional] 
 **goal_id** | **int** |  | [optional] 
 **process_instance_id** | **str** |  | [optional] 
-**tracking** | **bool** |  | [optional] 
+**tracking_for_me** | **bool** |  | [optional] 
+**running_count** | **int** |  | [optional] 
 
 ## Example
 

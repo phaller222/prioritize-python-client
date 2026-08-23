@@ -26,6 +26,9 @@ Name | Type | Description | Notes
 **department_id** | **int** |  | [optional] 
 **resource_group_id** | **int** |  | [optional] 
 **occupied_slots** | **int** |  | [optional] 
+**cost_rate** | **float** |  | [optional] 
+**cost_currency** | **str** |  | [optional] 
+**cost_rate_unit** | **str** |  | [optional] 
 
 ## Example
 

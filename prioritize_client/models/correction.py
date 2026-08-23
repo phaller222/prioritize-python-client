@@ -18,40 +18,33 @@ import pprint
 import re  # noqa: F401
 import json
 
-from datetime import date, datetime
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr, field_validator
+from datetime import datetime
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
-from prioritize_client.models.address_dto import AddressDTO
 from typing import Optional, Set
 from typing_extensions import Self
 
-class UserDTO(BaseModel):
+class Correction(BaseModel):
     """
-    UserDTO
+    Correction
     """ # noqa: E501
-    id: Optional[StrictInt] = None
-    username: Optional[StrictStr] = None
-    name: Optional[StrictStr] = None
-    firstname: Optional[StrictStr] = None
-    email: Optional[StrictStr] = None
-    occupation: Optional[StrictStr] = None
-    last_seen: Optional[datetime] = Field(default=None, alias="lastSeen")
-    date_of_birth: Optional[date] = Field(default=None, alias="dateOfBirth")
-    gender: Optional[StrictStr] = None
-    address: Optional[AddressDTO] = None
-    department_id: Optional[StrictInt] = Field(default=None, alias="departmentId")
-    admin: Optional[StrictBool] = None
-    active: Optional[StrictBool] = None
-    __properties: ClassVar[List[str]] = ["id", "username", "name", "firstname", "email", "occupation", "lastSeen", "dateOfBirth", "gender", "address", "departmentId", "admin", "active"]
+    kind: Optional[StrictStr] = None
+    corrected_by_id: Optional[StrictInt] = Field(default=None, alias="correctedById")
+    corrected_by: Optional[StrictStr] = Field(default=None, alias="correctedBy")
+    corrected_at: Optional[datetime] = Field(default=None, alias="correctedAt")
+    reason: Optional[StrictStr] = None
+    original_from: Optional[datetime] = Field(default=None, alias="originalFrom")
+    original_until: Optional[datetime] = Field(default=None, alias="originalUntil")
+    __properties: ClassVar[List[str]] = ["kind", "correctedById", "correctedBy", "correctedAt", "reason", "originalFrom", "originalUntil"]
 
-    @field_validator('gender')
-    def gender_validate_enum(cls, value):
+    @field_validator('kind')
+    def kind_validate_enum(cls, value):
         """Validates the enum"""
         if value is None:
             return value
 
-        if value not in set(['MALE', 'FEMALE', 'OTHER', 'TECHNICAL_USER']):
-            raise ValueError("must be one of enum values ('MALE', 'FEMALE', 'OTHER', 'TECHNICAL_USER')")
+        if value not in set(['CORRECTED', 'BACKDATED_STOP', 'MANUAL_ENTRY']):
+            raise ValueError("must be one of enum values ('CORRECTED', 'BACKDATED_STOP', 'MANUAL_ENTRY')")
         return value
 
     model_config = ConfigDict(
@@ -72,7 +65,7 @@ class UserDTO(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of UserDTO from a JSON string"""
+        """Create an instance of Correction from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -93,14 +86,11 @@ class UserDTO(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of address
-        if self.address:
-            _dict['address'] = self.address.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of UserDTO from a dict"""
+        """Create an instance of Correction from a dict"""
         if obj is None:
             return None
 
@@ -108,19 +98,13 @@ class UserDTO(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "id": obj.get("id"),
-            "username": obj.get("username"),
-            "name": obj.get("name"),
-            "firstname": obj.get("firstname"),
-            "email": obj.get("email"),
-            "occupation": obj.get("occupation"),
-            "lastSeen": obj.get("lastSeen"),
-            "dateOfBirth": obj.get("dateOfBirth"),
-            "gender": obj.get("gender"),
-            "address": AddressDTO.from_dict(obj["address"]) if obj.get("address") is not None else None,
-            "departmentId": obj.get("departmentId"),
-            "admin": obj.get("admin"),
-            "active": obj.get("active")
+            "kind": obj.get("kind"),
+            "correctedById": obj.get("correctedById"),
+            "correctedBy": obj.get("correctedBy"),
+            "correctedAt": obj.get("correctedAt"),
+            "reason": obj.get("reason"),
+            "originalFrom": obj.get("originalFrom"),
+            "originalUntil": obj.get("originalUntil")
         })
         return _obj
 

@@ -20,6 +20,9 @@ Name | Type | Description | Notes
 **mqtt_data_send_topic** | **str** |  | [optional] 
 **mqtt_data_receive_topic** | **str** |  | [optional] 
 **mqtt_online** | **bool** |  | [optional] 
+**cost_rate** | **float** |  | [optional] 
+**cost_currency** | **str** |  | [optional] 
+**cost_rate_unit** | **str** |  | [optional] 
 
 ## Example
 

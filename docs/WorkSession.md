@@ -5,10 +5,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**id** | **int** |  | [optional] 
+**user_id** | **int** |  | [optional] 
+**username** | **str** |  | [optional] 
 **var_from** | **datetime** |  | [optional] 
 **until** | **datetime** |  | [optional] 
 **seconds** | **int** |  | [optional] 
 **running** | **bool** |  | [optional] 
+**correction** | [**Correction**](Correction.md) |  | [optional] 
 
 ## Example
 

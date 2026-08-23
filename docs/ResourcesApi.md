@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**resource_assign_skill_to_resource**](ResourcesApi.md#resource_assign_skill_to_resource) | **POST** /api/v1/resources/{resourceId}/skills | Assigns a skill to a resource
 [**resource_cancel_reservation**](ResourcesApi.md#resource_cancel_reservation) | **DELETE** /api/v1/reservations/{reservationId} | Cancels a reservation and releases the occupied slot
+[**resource_clear_cost_rate**](ResourcesApi.md#resource_clear_cost_rate) | **DELETE** /api/v1/resources/{id}/cost-rate | Removes a resource&#39;s cost rate
 [**resource_create_resource**](ResourcesApi.md#resource_create_resource) | **POST** /api/v1/resourcegroups/{groupId}/resources | Creates a new resource in a specific resource group
 [**resource_create_resource_group**](ResourcesApi.md#resource_create_resource_group) | **POST** /api/v1/departments/{deptId}/resourcegroups | Creates a new resource group for a specific department
 [**resource_delete_resource**](ResourcesApi.md#resource_delete_resource) | **DELETE** /api/v1/resources/{id} | Deletes a resource, if the current user is authorized
@@ -184,6 +185,89 @@ void (empty response body)
 
  - **Content-Type**: Not defined
  - **Accept**: Not defined
+
+### HTTP response details
+
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **resource_clear_cost_rate**
+> ResourceDTO resource_clear_cost_rate(id)
+
+Removes a resource's cost rate
+
+### Example
+
+* Basic Authentication (basicAuth):
+* Bearer (JWT) Authentication (bearerAuth):
+
+```python
+import prioritize_client
+from prioritize_client.models.resource_dto import ResourceDTO
+from prioritize_client.rest import ApiException
+from pprint import pprint
+
+# Defining the host is optional and defaults to http://localhost:8080
+# See configuration.py for a list of all supported configuration parameters.
+configuration = prioritize_client.Configuration(
+    host = "http://localhost:8080"
+)
+
+# The client must configure the authentication and authorization parameters
+# in accordance with the API server security policy.
+# Examples for each auth method are provided below, use the example that
+# satisfies your auth use case.
+
+# Configure HTTP basic authorization: basicAuth
+configuration = prioritize_client.Configuration(
+    username = os.environ["USERNAME"],
+    password = os.environ["PASSWORD"]
+)
+
+# Configure Bearer authorization (JWT): bearerAuth
+configuration = prioritize_client.Configuration(
+    access_token = os.environ["BEARER_TOKEN"]
+)
+
+# Enter a context with an instance of the API client
+with prioritize_client.ApiClient(configuration) as api_client:
+    # Create an instance of the API class
+    api_instance = prioritize_client.ResourcesApi(api_client)
+    id = 56 # int | 
+
+    try:
+        # Removes a resource's cost rate
+        api_response = api_instance.resource_clear_cost_rate(id)
+        print("The response of ResourcesApi->resource_clear_cost_rate:\n")
+        pprint(api_response)
+    except Exception as e:
+        print("Exception when calling ResourcesApi->resource_clear_cost_rate: %s\n" % e)
+```
+
+
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **int**|  | 
+
+### Return type
+
+[**ResourceDTO**](ResourceDTO.md)
+
+### Authorization
+
+[basicAuth](../README.md#basicAuth), [bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: */*
 
 ### HTTP response details
 

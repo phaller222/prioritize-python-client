@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **firstname** | **str** |  | [optional] 
 **email** | **str** |  | [optional] 
 **occupation** | **str** |  | [optional] 
-**date_of_birth** | **datetime** |  | [optional] 
+**date_of_birth** | **date** |  | [optional] 
 **gender** | **str** |  | [optional] 
 **address** | [**AddressRequest**](AddressRequest.md) |  | [optional] 
 **admin** | **bool** |  | [optional] 
