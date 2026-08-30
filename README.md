@@ -51,7 +51,40 @@ the generated sources are never edited by hand:
 `3.1.0` header), runs the generator via the Maven harness in `pom.xml`, then stamps the Apache-2.0 license
 and author into the generated `pyproject.toml`.
 
-## Building & publishing (maintainers)
+## Releasing (maintainers)
+
+Releases are published to PyPI by GitHub Actions (`.github/workflows/publish.yml`) when a `v*` tag is
+pushed. Authentication uses **PyPI Trusted Publishing (OIDC)**: GitHub mints a short-lived token for this
+repository and workflow, and PyPI verifies it — no API token is stored in repository secrets or anywhere
+else, and nothing expires.
+
+```bash
+# bump artifactVersion/packageVersion in pom.xml, regenerate, commit, then:
+git tag -a v1.5.0 -m "Release 1.5.0"
+git push origin v1.5.0        # the workflow builds and publishes
+```
+
+The workflow refuses to publish if the tag disagrees with `VERSION` in `setup.py`. That is the version that
+actually ships — setuptools is the build backend, so the version in the `[tool.poetry]` block of
+`pyproject.toml` is not the one that counts.
+
+### One-time setup
+
+On <https://pypi.org/manage/project/prioritize-client/settings/publishing/>, add a GitHub publisher:
+
+| Field | Value |
+|---|---|
+| Owner | `phaller222` |
+| Repository | `prioritize-python-client` |
+| Workflow name | `publish.yml` |
+| Environment name | `pypi` |
+
+The environment name must match the `environment:` key in the workflow; create it under the repository's
+*Settings → Environments* too.
+
+### Manual fallback
+
+If Actions is unavailable, the old path still works from a machine holding a PyPI API token:
 
 ```bash
 python -m build            # produces dist/*.whl and dist/*.tar.gz
