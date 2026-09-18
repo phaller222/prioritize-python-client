@@ -15,6 +15,7 @@ Name | Type | Description | Notes
 **process_instance_id** | **str** |  | [optional] 
 **tracking_for_me** | **bool** |  | [optional] 
 **running_count** | **int** |  | [optional] 
+**equipment_running_count** | **int** |  | [optional] 
 
 ## Example
 

@@ -16,6 +16,8 @@ Name | Type | Description | Notes
 **gender** | **str** |  | [optional] 
 **address** | [**AddressDTO**](AddressDTO.md) |  | [optional] 
 **department_id** | **int** |  | [optional] 
+**qualification_level_id** | **int** |  | [optional] 
+**qualification_level_name** | **str** |  | [optional] 
 **admin** | **bool** |  | [optional] 
 **active** | **bool** |  | [optional] 
 

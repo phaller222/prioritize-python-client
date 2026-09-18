@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "prioritize_client"
-version = "1.4.0"
+version = "1.5.0"
 description = "Prioritize API"
 authors = ["Peter Haller <peter.haller@prioritize-iot.de>"]
 license = "Apache License 2.0"

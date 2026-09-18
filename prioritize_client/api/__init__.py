@@ -10,6 +10,7 @@ from prioritize_client.api.process_definitions_api import ProcessDefinitionsApi
 from prioritize_client.api.process_instances_api import ProcessInstancesApi
 from prioritize_client.api.project_goals_api import ProjectGoalsApi
 from prioritize_client.api.projects_api import ProjectsApi
+from prioritize_client.api.qualification_levels_api import QualificationLevelsApi
 from prioritize_client.api.resources_api import ResourcesApi
 from prioritize_client.api.skills_api import SkillsApi
 from prioritize_client.api.task_schedules_api import TaskSchedulesApi
